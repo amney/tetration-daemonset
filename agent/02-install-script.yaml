@@ -5,6 +5,7 @@ metadata:
   namespace: tetration
 data:
   install.sh: |
+    #!/bin/bash
     # Update and install packages - keep this here
     apt-get update 
     apt-get install unzip rpm -y
@@ -574,7 +575,7 @@ data:
         # Download the package with config files
         PKG_TYPE="sensor_w_cfg"
         check_host_version
-        [ $? -ne 0 ] && log "Error: Unsupported platform $DISTRO-$VERSION" && return 1
+        [ $? -ne 0 ] && log "Error: Unsupported platform $DISTRO-$VERSION" && cd $EXEC_DIR && return 1
       fi
 
       CHK_SUM=""
@@ -584,6 +585,15 @@ data:
       API_KEY=fc08c957aeae4afaaa0091a43bc19074
       API_SECRET=8757940f49b305b464bf00b4e99664c5e547ecad
       ARCH=$(uname -m)
+      case $CL_HTTPS_PROXY in
+        http:*)
+          PROXY_ARGS="-x $CL_HTTPS_PROXY"
+          log "$CL_HTTPS_PROXY will be used as proxy"
+          ;;
+        *)
+          [ ! -z $CL_HTTPS_PROXY ] && log "proxy $CL_HTTPS_PROXY will not be used by curl"
+          ;;
+      esac
       if [ $LIST_VERSION = "True" ] ; then
         METHOD="GET"
         URI="/openapi/v1/sw_assets/download?pkg_type=$PKG_TYPE\&platform=$DISTRO-$VERSION\&arch=$ARCH\&list_version=$LIST_VERSION"
@@ -614,6 +624,7 @@ data:
           curl_status=$?
           if [ $curl_status -ne 0 ] ; then
             log "Curl error: $curl_status"
+            cd $EXEC_DIR
             return 1
           fi
           if [ $status_code -eq 200 ] ; then
@@ -742,7 +753,15 @@ data:
 
     function cleanup_when_exit {
       echo "Cleanning up temporary files when exit"
-      [ -d $TMP_DIR ] && rm -rf $TMP_DIR
+      if [[ -d $TMP_DIR ]] ; then
+        tmp_dir=$(fullname "$TMP_DIR")
+        # Remove tmp_dir only if it's in /tmp/ path
+        case "$tmp_dir" in
+          /tmp/*)
+            rm -rf $tmp_dir
+            ;;
+        esac
+      fi
     }
 
     trap cleanup_when_exit EXIT
