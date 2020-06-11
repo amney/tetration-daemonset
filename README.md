@@ -80,6 +80,10 @@ data:
 
 At this point we can now launch the Tetration agent
 
+```bash
+$ kubectl apply -f agent
+```
+
 ### Checking the Tetration agent
 
 You can check that the Tetration agent is deployed on all nodes:
