@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: agent
+  namespace: tetration
+spec:
+  selector:
+    matchLabels:
+      job: agent
+  template:
+    metadata:
+      labels:
+        job: agent
+    spec:
+      hostPID: true
+      restartPolicy: Always
+      containers:
+        - image: tigarner/tetration-daemonset-agent:latest
+          name: agent
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: install-script
+              mountPath: /tmp
+            - name: host-mount
+              mountPath: /host
+      volumes:
+        - name: install-script
+          configMap:
+            name: install-script
+        - name: host-mount
+          hostPath:
+            path: /tmp/install
