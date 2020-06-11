@@ -23,7 +23,9 @@ $ kubectl apply -f rbac/01-authentication.yaml
 
 Extract the API token for the Tetration user
 ```bash
-$ kubectl apply -f rbac/01-authentication.yaml
+$ kubectl -n kube-system describe secret (kubectl -n kube-system get secret | grep tetration | awk '{print $1}') | grep token: | cut -d' ' -f 7
+
+eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9...snip
 ```
 
 Head to the Tetration interface to create a Kubernetes external orchestrator. Use the token received above.
