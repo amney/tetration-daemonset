@@ -23,7 +23,7 @@ $ kubectl apply -f rbac/01-authentication.yaml
 
 Extract the API token for the Tetration user
 ```bash
-$ kubectl -n kube-system describe secret (kubectl -n kube-system get secret | grep tetration | awk '{print $1}') | grep token: | cut -d' ' -f 7
+$ kubectl -n kube-system describe secret (kubectl -n kube-system get secret | grep tetration | awk '{print $1}') | grep token: | awk '{print $2}'
 
 eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9...snip
 ```
