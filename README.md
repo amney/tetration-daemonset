@@ -55,10 +55,14 @@ metadata:
   namespace: tetration
 data:
   install.sh: |
-    #!/bin/bash
-    # Update and install packages
-    apt-get update
+    # Update and install packages - keep this here
+    apt-get update 
     apt-get install unzip rpm -y
+
+    # PASTE INSTALLER SCRIPT HERE
+    # KEEP FOUR (4) SPACE INDENT
+    # REPLACE ALL TEXT BELOW THIS LINE
+    # =============================================
 
     # This script requires privilege users to execute.
     #
@@ -69,7 +73,7 @@ data:
     # with 0. Otherwise it terminates with a non-zero exit code for the first error
     # faced during execution.
 
-    ...remaining text cut...
+    ... remaining text cut ...
 ```
 
 ### Applying the ConfigMap and DaemonSet

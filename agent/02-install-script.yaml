@@ -5,17 +5,14 @@ metadata:
   namespace: tetration
 data:
   install.sh: |
-    PASTE INSTALLER SCRIPT HERE
-
-    REPLACE ALL THIS TEXT
-
-    KEEP FOUR (4) SPACE INDENT
-
-    EXAMPLE: 
-
-    # Update and install packages
-    apt-get update
+    # Update and install packages - keep this here
+    apt-get update 
     apt-get install unzip rpm -y
+
+    # PASTE INSTALLER SCRIPT HERE
+    # KEEP FOUR (4) SPACE INDENT
+    # REPLACE ALL TEXT BELOW THIS LINE
+    # =============================================
 
     # This script requires privilege users to execute.
     #
