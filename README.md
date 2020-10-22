@@ -83,6 +83,7 @@ data:
 At this point we can now launch the Tetration agent
 
 ```bash
+$ kubectl create namespace tetration
 $ kubectl apply -f agent
 ```
 
